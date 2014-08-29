@@ -26,6 +26,7 @@ def find(value,ku):
 if __name__ == "__main__":
 	if len(sys.argv) <=1:
 		usage()
+		exit()
 	logo()
 	value = sys.argv[1]
 	starttime = datetime.datetime.now()
