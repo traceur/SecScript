@@ -16,7 +16,7 @@ except Exception, e:
 
 	
 def usage():
-	print 'python qqsgk.py [QQNum/QunNum] key'
+	print 'python sgk_qq.py [QQNum/QunNum] key'
 
 def search(value,op):
 	starttime = datetime.datetime.now()
