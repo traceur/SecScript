@@ -9,7 +9,7 @@ mysql 社工库查询脚本
 import MySQLdb,sys,datetime
 
 try:
-    conn = MySQLdb.connect(host='localhost',user='root',passwd='xxx',db='shegong',charset='utf8')
+    conn = MySQLdb.connect(host='localhost',user='root',passwd='P@ssw0rd_mysql',db='shegong',charset='utf8')
 except Exception, e:
     print e
     sys.exit()
@@ -33,9 +33,9 @@ def search(mark,value):
 				print '-----------------------'
 				print 'From:	'+i[0]+'\r\n'
 				for z in sql_value:
-					print z
+					for x in z:
+						print str(x),
 				print '\r\n'
-				print '-----------------------'
 
 		except:
 			pass
