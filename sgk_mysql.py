@@ -9,7 +9,7 @@ mysql 社工库查询脚本
 import MySQLdb,sys,datetime
 
 try:
-    conn = MySQLdb.connect(host='localhost',user='root',passwd='P@ssw0rd_mysql',db='shegong',charset='utf8')
+    conn = MySQLdb.connect(host='localhost',user='root',passwd='xxxx',db='shegong',charset='utf8')
 except Exception, e:
     print e
     sys.exit()
