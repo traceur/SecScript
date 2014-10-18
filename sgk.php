@@ -55,14 +55,14 @@ color:#464646;
     	<a href='index.php'><h1></>社工库查询系统</h1></></a>
     <form action="index.php" method="post" enctype="application/x-www-form-urlencoded" name="query">
     <select name="op" class="stype">
-            <option value="email">邮	箱</option>
-        	<option value="name">用户名</option>
-            <option value="realname">姓	名</option>
-            <option value="tel">手	机</option>
-            <option value="QQNum">Q	Q</option>
-            <option value="Qun">QQ for 群</option>
-            <option value="ctfid">身份证</option>
-			</select>
+			<option value="email">邮	箱</option>
+			<option value="name">用户名</option>
+			<option value="realname">姓	名</option>
+			<option value="tel">手	机</option>
+			<option value="QQNum">Q	Q</option>
+			<option value="Qun">QQ for 群</option>
+			<option value="ctfid">身份证</option>
+		</select>
     <input name="key" id="key" class="key" value=""/>
              &nbsp;&nbsp;模糊寻找 <input name="liketype" type="checkbox" value="1" align="absmiddle" class="ck"/>&nbsp;&nbsp;
         <input name="" type="submit" value="查询" height="30" width="80"/>
@@ -88,7 +88,7 @@ function post_check($post) {
 }  
 
 /* 连接选择数据库 */
-$link = mysql_connect("localhost", "root", "xxxxxxxxxxxx")
+$link = mysql_connect("localhost", "root", "P@ssw0rd_mysql")
    or die("Could not connect : " . mysql_error()); 
 mysql_select_db("shegong") or die("Could not select database");
 mysql_query("SET NAMES 'UTF8'"); 
