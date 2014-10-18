@@ -48,7 +48,11 @@ color:#464646;
 }
 </style>
 </head>
-
+<!--
+社工库为两个表
+QQ群信息一个，数据库名为qun，表前缀分别为:shegong_qun_qunlist和shegong_qun_group
+其他数据为另一个数据库，名为shegong，表前缀为：shegong_
+-->
 <body>
 <div class="main">
     <div class="center">
