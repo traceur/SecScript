@@ -52,6 +52,7 @@ color:#464646;
 <body>
 <div class="main">
     <div class="center">
+    	<a href='index.php'><h1></>社工库查询系统</h1></></a>
     <form action="index.php" method="post" enctype="application/x-www-form-urlencoded" name="query">
     <select name="op" class="stype">
             <option value="email">邮	箱</option>
@@ -66,7 +67,6 @@ color:#464646;
              &nbsp;&nbsp;模糊寻找 <input name="liketype" type="checkbox" value="1" align="absmiddle" class="ck"/>&nbsp;&nbsp;
         <input name="" type="submit" value="查询" height="30" width="80"/>
     </form>
-    	
     </div>
     <div class="result">
 <?php
@@ -88,7 +88,7 @@ function post_check($post) {
 }  
 
 /* 连接选择数据库 */
-$link = mysql_connect("localhost", "root", "xxxxxxxxxx")
+$link = mysql_connect("localhost", "root", "xxxxxxxxxxxx")
    or die("Could not connect : " . mysql_error()); 
 mysql_select_db("shegong") or die("Could not select database");
 mysql_query("SET NAMES 'UTF8'"); 
@@ -99,6 +99,7 @@ mysql_query("SET NAMES 'UTF8'");
 
 /*QQ群内容查询*/
 if($op =='Qun'){
+	$t1 = microtime(true);
 	print "<table border=\"1\"> <caption> <h3>QQ群关系</caption>";
 	print "<td><b1>QQ号码</b1></td><td><b1>QQ昵称</b1></td><td><b1>QQ群号</b1></td><td><b1>QQ群标题</b1></td><td><b1>QQ群内容</b1></td></tr>";
 	$query = "select table_name from information_schema.tables Where table_name LIKE 'shegong_qun_group%'";
@@ -119,44 +120,52 @@ if($op =='Qun'){
 						$values_quninfo = mysql_query($sql_plus_quninfo); 
 						while ($task_quninfo = mysql_fetch_array($values_quninfo, MYSQL_ASSOC)) {
 							foreach($task_quninfo as $value_quninfo){
-								echo "<td><b1>$value_quninfo</b1></td>";
+								print "<td><b1>$value_quninfo</b1></td>";
 							}
 						}
 					}
 				}
-				print "</tr>";
+				echo "</tr>";
 			}
 		}
 	}
+	$t2 = microtime(true);
+	print "</table>";
+	print "<h2><span style=\"color:red\">耗时".round($t2-$t1,3)."秒</span></h2>";
+	print "</div></body></html>";
 }
-elseif($op =='email' or $op == 'name' or $op == 'realname' or $op =='tel' or $op == 'ctfid'){
+if($op =='email' || $op == 'name' || $op == 'realname' || $op =='tel' || $op == 'QQNum' || $op == 'ctfid'){
+	$t1 = microtime(true);
 	$query = "select table_name from information_schema.tables Where table_name LIKE 'shegong_%'";
 	$result = mysql_query($query) or die("Query failed : " . mysql_error()); 
 	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-	    foreach ($line as $col_value) {
-				if(empty($liketype)){
-					$sql_plus = "select * from $col_value where $op = '$key';";
-				}
-				else{
-					$sql_plus = "select * from $col_value where $op like '%$key%';";
-				}
-				$values = mysql_query($sql_plus); 
-				while ($task = mysql_fetch_array($values, MYSQL_ASSOC)) {
-					$show_table = "select COLUMN_NAME from information_schema.COLUMNS where table_name ='$col_value'";
-					$tables = mysql_query($show_table);
-					print "<table border=\"1\"> <caption> <h3>From : <strong> $col_value</strong> </h3> </caption>";
-					while ($table = mysql_fetch_array($tables, MYSQL_ASSOC)){
-						foreach ($table as $t){
-							print "<td><b1>$t</b1></td>";}}
-						print "</tr>";
-						foreach ($task as $make) {
-							print "<td>$make</td>";
-						}
-						print "</table><br><br>";
-	
-				}
+		foreach ($line as $col_value) {
+			if(empty($liketype)){
+				$sql_plus = "select * from $col_value where $op = '$key';";
 			}
+			else{
+				$sql_plus = "select * from $col_value where $op like '%$key%';";
+			}
+			$values = mysql_query($sql_plus); 
+			while ($task = mysql_fetch_array($values, MYSQL_ASSOC)) {
+				$show_table = "select COLUMN_NAME from information_schema.COLUMNS where table_name ='$col_value'";
+				$tables = mysql_query($show_table);
+				print "<table border=\"1\"> <caption> <h3>From : <strong> $col_value</strong> </h3> </caption>";
+				while ($table = mysql_fetch_array($tables, MYSQL_ASSOC)){
+					foreach ($table as $t){
+						print "<td><b1>$t</b1></td>";}}
+					print "</tr>";
+					foreach ($task as $make) {
+						print "<td>$make</td>";
+					}
+					print "</table><br><br>";
+				}
 		}
 	}
+	$t2 = microtime(true);
+	print "</table>";
+	print "<h2><span style=\"color:red\">耗时".round($t2-$t1,3)."秒</span></h2>";
+	print "</div></body></html>";
+}
 
 ?>
