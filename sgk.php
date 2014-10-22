@@ -92,7 +92,7 @@ function post_check($post) {
 }  
 
 /* 连接选择数据库 */
-$link = mysql_connect("localhost", "root", "P@ssw0rd_mysql")
+$link = mysql_connect("localhost", "root", "x")
    or die("Could not connect : " . mysql_error()); 
 mysql_select_db("shegong") or die("Could not select database");
 mysql_query("SET NAMES 'UTF8'"); 
