@@ -111,7 +111,7 @@ function install_deps() {
        INST_CMD="yum -y install \
            openssl-devel bzip2-devel \
            expat-devel gdbm-devel \
-		   python-devel mysql-devel mysql \
+		   python-devel mysql-devel mysql subversion-devel \
 		   subversion-devel readline-devel \
 		   sqlite-devel wget curl gcc gcc*"
    elif [ -f /usr/bin/apt-get ]; then
