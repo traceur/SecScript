@@ -7,12 +7,13 @@ mysql 社工库查询脚本
 '''
 
 import MySQLdb,sys,datetime
-import sys
+import sys,os
+
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 try:
-    conn = MySQLdb.connect(host='localhost',user='root',passwd='XXX',db='shegong',charset='utf8')
+    conn = MySQLdb.connect(host='localhost',user='root',passwd='',charset='utf8')
 except Exception, e:
     print e
     sys.exit()
@@ -24,11 +25,17 @@ def usage():
 def search(mark,value):
 	starttime = datetime.datetime.now()
 	cursor = conn.cursor()
-	list_table = 'select table_name from information_schema.tables where table_schema=\'shegong\''
+	list_table = 'select table_name from information_schema.tables where table_name like \'shegong%\';'
 	cursor.execute(list_table)
 	sql_tables = cursor.fetchall()
 	for i in sql_tables:
-		search_sql = 'select * from '+i[0]+' where '+mark+' like \'%'+value+'%\';'
+		if 'shegong_qun_group' in i[0]:
+			search_sql = 'select * from qun.'+i[0]+' where '+mark+'='+value+';'
+		elif 'shegong_qun_qunlist' in i[0]:
+			pass
+		else:
+			search_sql = 'select * from shegong.'+i[0]+' where '+mark+' like \'%'+value+'%\';'
+#			print search_sql
 		try:
 			cursor.execute(search_sql)
 			sql_value = cursor.fetchall()
@@ -36,7 +43,7 @@ def search(mark,value):
 			pass
 			sql_value = None
 		if sql_value:
-			print '-----------------------'
+			print '-----------------------'*2
 			print 'From:	'+i[0]+'\r\n'
 			if len(sql_value) > 1:
 				for z in sql_value:
@@ -67,5 +74,9 @@ if __name__ == "__main__":
 		usage()
 		exit()
 	mark = sys.argv[1]
-	value = sys.argv[2]
+
+	if 'nt' in os.name:
+		value = unicode(sys.argv[2],'GBK')
+	else:
+		value = sys.argv[2]
 	search(mark,value)
