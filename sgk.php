@@ -93,7 +93,7 @@ function post_check($post) {
   return $post;  
 }  
 /* 连接选择数据库 */
-$link = mysql_connect("localhost", "root", "")
+$link = mysql_connect("localhost", "root", "P@ssw0rd_mysql")
    or die("Could not connect : " . mysql_error()); 
 mysql_select_db("shegong") or die("Could not select database");
 mysql_query("SET NAMES 'UTF8'"); 
@@ -108,7 +108,7 @@ if($op =='Qun'){
 	$result = mysql_query($query) or die("Query failed : " . mysql_error()); 
 	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		foreach ($line as $col_value) {
-			$sql_plus = "select QQNum,Nick,QunNum from qun.$col_value where QQNum = '$key';";
+			$sql_plus = "select QQNum,realname,QunNum from qun.$col_value where QQNum = '$key';";
 			$values = mysql_query($sql_plus); 
 			while ($task = mysql_fetch_array($values, MYSQL_ASSOC)) {
 				foreach($task as $value){
@@ -145,7 +145,7 @@ if($op =='QunNum'){
 	$result = mysql_query($query) or die("Query failed : " . mysql_error()); 
 	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		foreach ($line as $col_value) {
-			$sql_plus = "select QQNum,Nick,QunNum from qun.$col_value where QunNum = '$key';";
+			$sql_plus = "select QQNum,realname,QunNum from qun.$col_value where QunNum = '$key';";
 			$values = mysql_query($sql_plus); 
 			while ($task = mysql_fetch_array($values, MYSQL_ASSOC)) {
 				foreach($task as $value){
