@@ -13,16 +13,23 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 try:
-    conn = MySQLdb.connect(host='localhost',user='root',passwd='',charset='utf8')
+    conn = MySQLdb.connect(host='localhost',user='root',passwd='P@ssw0rd_mysql',charset='utf8')
 except Exception, e:
     print e
     sys.exit()
 
 	
 def usage():
-	print 'python sgk.py [name/email/QQNum/realname/tel/ctfid/passwd] value'
-
-def search(mark,value):
+	print ' '+'='*80
+	print '|'
+	print '|'
+	print '|	python sgk.py [name/email/QQNum/realname/tel/ctfid/passwd] [like/equal] value'
+	print '|'
+	print '|'
+	print ' '+'='*80
+	
+	
+def search(mark,value,like):
 	starttime = datetime.datetime.now()
 	cursor = conn.cursor()
 	list_table = 'select table_name from information_schema.tables where table_name like \'shegong%\';'
@@ -34,8 +41,12 @@ def search(mark,value):
 		elif 'shegong_qun_qunlist' in i[0]:
 			pass
 		else:
-			search_sql = 'select * from shegong.'+i[0]+' where '+mark+' like \'%'+value+'%\';'
-#			print search_sql
+			if like == 'like':
+				search_sql = 'select * from shegong.'+i[0]+' where '+mark+' like \'%'+value+'%\';'
+			elif like == 'equal':
+				search_sql = 'select * from shegong.'+i[0]+' where '+mark+' = \''+value+'\';'
+			else:
+				exit()
 		try:
 			cursor.execute(search_sql)
 			sql_value = cursor.fetchall()
@@ -43,7 +54,7 @@ def search(mark,value):
 			pass
 			sql_value = None
 		if sql_value:
-			print '-----------------------'*2
+			print '---------------------------------'*2
 			print 'From:	'+i[0]+'\r\n'
 			if len(sql_value) > 1:
 				for z in sql_value:
@@ -52,8 +63,8 @@ def search(mark,value):
 							print x,
 						except:
 							pass
-					print '\r\n'
-				print '\r\n'
+					print '\r'
+#				print '\r\n'
 			else:
 				for z in sql_value:
 					for x in z:
@@ -70,13 +81,15 @@ def search(mark,value):
 	
 	
 if __name__ == "__main__":
-	if len(sys.argv) !=3:
+	if len(sys.argv) !=4:
 		usage()
 		exit()
 	mark = sys.argv[1]
+	like = sys.argv[2]
 
 	if 'nt' in os.name:
-		value = unicode(sys.argv[2],'GBK')
+		value = unicode(sys.argv[3],'GBK')
 	else:
-		value = sys.argv[2]
-	search(mark,value)
+		value = sys.argv[3]
+	usage()
+	search(mark,value,like)
