@@ -55,7 +55,7 @@ QQ群信息一个，数据库名为qun，表前缀分别为:shegong_qun_qunlist�
 <body>
 <div class="main">
     <div class="center">
-    	<a href='index.php'><h1></>天网查询系统</h1></></a>
+    	<a href='index.php'><h1>天网查询系统</h1></a>
     <form action="index.php" method="get" enctype="application/x-www-form-urlencoded" name="query">
     <select name="op" class="stype">
 			<option value="email">邮	箱</option>
