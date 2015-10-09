@@ -13,7 +13,7 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 try:
-    conn = MySQLdb.connect(host='localhost',user='root',passwd='P@ssw0rd_mysql',charset='utf8')
+    conn = MySQLdb.connect(host='localhost',user='root',passwd='',charset='utf8')
 except Exception, e:
     print e
     sys.exit()
