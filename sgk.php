@@ -9,14 +9,15 @@ body
 }
 .main{
 	margin:0px auto;
-	padding:0px;
-	width:1800px;
+	padding:10px;
 	background:#f3f3f3;
+	margin-right:80px;
+	margin-left:80px;
 	border:1px #ccc solid;
 	font-size:12px;
 }
 .center{
-	margin-top:30px;
+	margin-top:10px;
 	text-align:center;
 }
 .result{
@@ -47,8 +48,9 @@ body
 	color:#464646;
 }
 .td{
-	border: 1px #ccc solid;
+	border: 0.5px #ccc solid;
 }
+
 </style>
 </head>
 <!--
@@ -87,13 +89,17 @@ QQ群信息一个，数据库名为qun，表前缀分别为:shegong_qun_qunlist�
 $key		=	post_check(isset($_GET['key'])?$_GET['key']:"");
 $op			=	post_check(isset($_GET['op'])?$_GET['op']:"");
 $liketype	=	post_check(isset($_GET['liketype'])?$_GET['liketype']:"");
+//$key		=	post_check($_GET['key']);
+//$op			=	post_check($_GET['op']);
+
 /* 防注入函数 */
 function post_check($post) {  
   if (!get_magic_quotes_gpc()) { 
     $post = addslashes($post);
   }  
-  $post = str_replace("_", "\_", $post);
+//  $post = str_replace("_", "\_", $post);
   $post = str_replace("%", "\%", $post);
+  $post = str_replace("'", "", $post);
   $post = nl2br($post);
   $post = htmlspecialchars($post);
   return $post;  
@@ -290,6 +296,8 @@ if($op =='email' || $op == 'name' || $op == 'realname' || $op =='tel' || $op == 
 				$sql_plus = "select * from $col_value where $op like '%$key%';";
 			}
 			$values = mysql_query($sql_plus); 
+//			print "$sql_plus";
+//			print "<br>";
 
 			$isPrint=false;
 			while ($task = mysql_fetch_array($values, MYSQL_ASSOC)) {
