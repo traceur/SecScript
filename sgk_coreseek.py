@@ -59,8 +59,8 @@ if res.has_key('matches'):
 		n += 1
 #		print '%d. doc_id=%s, weight=%d%s' % (n, match['id'], match['weight'], attrsdump)
 		sql ="select * from shegong.%s where id = '%s';"%(tables[value - 1],match['id'])
-#		cursor = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
-		cursor = conn.cursor()
+		cursor = conn.cursor(cursorclass = MySQLdb.cursors.DictCursor)
+#		cursor = conn.cursor()
 		cursor.execute(sql)
 		sql_value = cursor.fetchall()
 		for i in sql_value:
