@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+#coder:qiaoy<TraceurQ@gmail.com>
 
+'''
+多线程获取Web信息，title和body
+'''
 
 import threading, Queue, time
 import sys, requests
