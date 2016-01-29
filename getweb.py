@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-#coder:qiaoy<TraceurQ@gmail.com>
 
-'''
-多线程获取Web信息，title和body
-'''
 
 import threading, Queue, time
 import sys, requests
 import MySQLdb
 from BeautifulSoup import *
+
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 
 try:
 	conn = MySQLdb.connect(host='localhost',user='root',passwd='',db='test',charset='utf8')
@@ -37,34 +37,50 @@ def worker() :
 	while not SHARE_Q.empty():
 		url = SHARE_Q.get() #获得任务
 		getwebvalue(url)
-		time.sleep(1)
+		time.sleep(2)
 		SHARE_Q.task_done()
 		
 def getwebvalue(url):
 	s_ip = url
 	try:
 	#	res = requests.get(s_ip, headers = headers,timeout=5,allow_redirects=False)
-		res = requests.get(s_ip,timeout=5,allow_redirects=False)
+		res = requests.get(s_ip,timeout=3,allow_redirects=False)
 		res.encoding =  res.apparent_encoding
 		if res.status_code == 200 and res.text != '':
 			html = BeautifulSoup(res.text)
 			try:
-				server = res.headers['server'].replace('\"','\'')
+				serverbanner = res.headers['server']
 			except:
-				server=''
+				serverbanner = ''
 			try:
-				title = html.title.text.replace('\"','\'')
+				title = html.title.text.replace('\"','\'').replace('\n',' ').replace('\r',' ')
 			except:
 				title = ''
 			try:
-				body = html.body.text.replace('\"','\'').replace('\n',' ')
+				body = html.body.text.replace('\"','\'').replace('\n',' ').replace('\r',' ')
 			except:
 				body = ''
-			sql = "INSERT INTO web(`ip`, `server`, `title`, `body`) VALUES (%s, %s, %s, %s)"
-#			print sql
-			cursor.execute(sql,(s_ip.replace('http://',''),server,title,body))
-#			print "\"%s\"	\"%s\"	\"%s\"	\"%s\""%(s_ip.replace('http://',''),server,title,body)
-	except:pass
+		else:
+			s_ip = ''
+	except:
+		s_ip = ''
+		serverbanner=''
+		title=''
+		body=''
+		#print 'requests error!'
+
+	try:
+		if s_ip:
+	#		print "\"%s\"	\"%s\"	\"%s\"	\"%s\""%(s_ip.replace('http://',''),str(serverbanner),str(title),str(body))
+	#		sql = "INSERT INTO web(`ip`, `server`, `title`,`body`) VALUES (%s, %s, %s, %s)"
+	#		cursor.execute(sql,(s_ip.replace('http://',''),serverbanner,title,body))
+			print "\"%s\"	\"%s\"	\"%s\"	\"%s\""%(s_ip.replace('http://',''),str(serverbanner),str(title),str(body))
+	#		cursor.commit()
+	except MySQLdb.Error, e:
+			try:
+				print "%s MySQL Error [%d]: %s" % (s_ip,e.args[0], e.args[1])
+			except IndexError:
+				print "MySQL Error: %s" % str(e)
 
 def main() :
 	global SHARE_Q
