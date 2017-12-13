@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding: UTF-8
-#coder:qiaoy<TraceurQ@gmail.com>
+#coder:qiaoy
 '''
 wvs_console 批量扫描脚本
 '''
